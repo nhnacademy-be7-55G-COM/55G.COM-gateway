@@ -53,7 +53,7 @@ spring:
       on-profile: docker
 
 eureka-server:
-  host: eureka
+  host: 55g-eureka
 
 eureka:
   client:
