@@ -29,8 +29,11 @@ for ((i=1; i<${#ps_arr[@]}; i++)); do
     docker rm ${ps_arr[i]}
 done
 
+echo "Building docker image..."
 docker build -t $image_name .
 
+echo "Creating container for service..."
 docker run -d --name $container_name --env SPRING_PROFILE=$spring_env --env SERVER_PORT=$server_port -p $server_port:$server_port $image_name
 
+echo "Pruning images..."
 docker image prune --force
