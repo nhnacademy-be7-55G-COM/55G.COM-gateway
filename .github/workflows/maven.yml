@@ -80,3 +80,8 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script_stop: true
         script: "~/app/gateway/dev/startup.sh --dev"
+    - name: Analyze code
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST }}
+      run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=55g.com-gateway -Dsonar.projectName='55g.com-gateway'
