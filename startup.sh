@@ -30,10 +30,10 @@ for ((i=1; i<${#ps_arr[@]}; i++)); do
 done
 
 echo "Building docker image..."
-docker build -t $image_name .
+docker build -t $image_name-$spring_env .
 
 echo "Creating container for service..."
-docker run -d --name $container_name --env SPRING_PROFILE=$spring_env --env SERVER_PORT=$server_port -p $server_port:$server_port $image_name
+docker run -d --name $container_name --env SPRING_PROFILE=$spring_env --env SERVER_PORT=$server_port -p $server_port:$server_port $image_name-$spring_env
 
 echo "Pruning images..."
 docker image prune --force
