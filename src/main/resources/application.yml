@@ -3,14 +3,19 @@ spring:
     name: gateway-service
 
 server:
-  port: 8080
+  port: 8000
+
+eureka-server:
+  host: localhost
+  port: 8761
+  postfix: default
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${eureka-server.host}:${eureka-server.port}/eureka
 
   instance:
     prefer-ip-address: true
@@ -20,3 +25,37 @@ management:
     web:
       exposure:
         include: health,info
+---
+spring:
+  config:
+    activate:
+      on-profile: live
+
+eureka-server:
+  postfix: live
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+eureka-server:
+  port: 8762
+  postfix: dev
+
+server:
+  port: 8050
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+eureka-server:
+  host: 55g-eureka
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka-server.host}-${eureka-server.postfix}:${eureka-server.port}/eureka
