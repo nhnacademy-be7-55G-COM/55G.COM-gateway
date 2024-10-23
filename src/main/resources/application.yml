@@ -15,16 +15,11 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka-server.host}:${eureka-server.port}/eureka
+      defaultZone: http://admin:1234@${eureka-server.host}:${eureka-server.port}/eureka
 
   instance:
     prefer-ip-address: true
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
 ---
 spring:
   config:
@@ -58,4 +53,4 @@ eureka-server:
 eureka:
   client:
     service-url:
-      defaultZone: http://${eureka-server.host}-${eureka-server.postfix}:${eureka-server.port}/eureka
+      defaultZone: http://admin:1234@${eureka-server.host}-${eureka-server.postfix}:${eureka-server.port}/eureka
