@@ -7,12 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RouteConfig {
+
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
             .route("shop-service",
-                    p -> p.path("/api/shop/**")
-                            .uri("lb://shop-service")
+                p -> p.path("/api/shop/**")
+                    .uri("lb://shop-service")
             )
             .build();
     }
