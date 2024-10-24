@@ -51,7 +51,7 @@ logging:
   logback:
     rollingpolicy:
       max-history: 100
-      file-name-pattern: ${55g.log.path}/gateway-live-%d{yyyy-MM-dd_HH:mm}.%i.log
+      file-name-pattern: ${55g.log.path}/gateway-live-%d{yyyy-MM-dd}.%i.log
       max-file-size: 100KB
   level:
     root: info
@@ -79,7 +79,7 @@ logging:
   logback:
     rollingpolicy:
       max-history: 30
-      file-name-pattern: ${55g.log.path}/gateway-dev-%d{yyyy-MM-dd_HH:mm}.%i.log
+      file-name-pattern: ${55g.log.path}/gateway-dev-%d{yyyy-MM-dd}.%i.log
       max-file-size: 100KB
   level:
     root: debug
