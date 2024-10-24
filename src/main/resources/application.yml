@@ -11,14 +11,22 @@ eureka-server:
   postfix: default
 
 eureka:
+  user:
+    name: admin
+    password: 1234
+
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://admin:1234@${eureka-server.host}:${eureka-server.port}/eureka
+      defaultZone: http://${eureka.user.name}:${eureka.user.password}@${eureka-server.host}:${eureka-server.port}/eureka
+
+    registry-fetch-interval-seconds: 30
 
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
 
 management:
   endpoint:
@@ -28,7 +36,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: gateway
+        include: gateway,info,health
 
 ---
 spring:
@@ -63,4 +71,4 @@ eureka-server:
 eureka:
   client:
     service-url:
-      defaultZone: http://admin:1234@${eureka-server.host}-${eureka-server.postfix}:${eureka-server.port}/eureka
+      defaultZone: http://${eureka.user.name}:${eureka.user.password}@${eureka-server.host}-${eureka-server.postfix}:${eureka-server.port}/eureka
