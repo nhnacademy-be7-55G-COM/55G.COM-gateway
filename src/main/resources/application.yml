@@ -30,6 +30,12 @@ management:
       exposure:
         include: gateway
 
+55g:
+  log:
+    path: .
+logging:
+  file:
+    name: ${55g.log.path}/gateway.log
 ---
 spring:
   config:
@@ -39,6 +45,21 @@ spring:
 eureka-server:
   postfix: live
 
+logging:
+  file:
+    name: ${55g.log.path}/gateway-live.log
+  logback:
+    rollingpolicy:
+      max-history: 100
+      file-name-pattern: ${55g.log.path}/gateway-live-%d{yyyy-MM-dd_HH:mm}.%i.log
+      max-file-size: 100KB
+  level:
+    root: info
+    com.S5G.gateway: info
+
+55g:
+  log:
+    path: /logs/live/gateway
 ---
 spring:
   config:
@@ -51,6 +72,22 @@ eureka-server:
 
 server:
   port: 8050
+
+logging:
+  file:
+    name: ${55g.log.path}/gateway-dev.log
+  logback:
+    rollingpolicy:
+      max-history: 30
+      file-name-pattern: ${55g.log.path}/gateway-dev-%d{yyyy-MM-dd_HH:mm}.%i.log
+      max-file-size: 100KB
+  level:
+    root: debug
+    com.S5G.gateway: trace
+
+55g:
+  log:
+    path: /logs/dev/gateway
 ---
 spring:
   config:
