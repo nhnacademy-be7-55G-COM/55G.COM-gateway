@@ -1,111 +1,13 @@
 spring:
+  profiles:
+    active: default
+
   application:
     name: gateway-service
 
-server:
-  port: 8000
-
-eureka-server:
-  host: localhost
-  port: 8761
-  postfix: default
-
-eureka:
-  user:
-    name: admin
-    password: 1234
-
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://${eureka.user.name}:${eureka.user.password}@${eureka-server.host}:${eureka-server.port}/eureka
-
-    registry-fetch-interval-seconds: 30
-
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 30
-    lease-expiration-duration-in-seconds: 90
-
-management:
-  endpoint:
-    gateway:
-      enabled: true
-
-  endpoints:
-    web:
-      exposure:
-        include: gateway,info,health
-
-55g:
-  log:
-    path: .
-logging:
-  file:
-    name: ${55g.log.path}/gateway.log
----
-spring:
   config:
-    activate:
-      on-profile: live
+    import: configserver:http://admin:55g.com7@localhost:9000
 
-eureka-server:
-  postfix: live
-
-logging:
-  file:
-    name: ${55g.log.path}/gateway-live.log
-  logback:
-    rollingpolicy:
-      max-history: 100
-      file-name-pattern: ${55g.log.path}/gateway-live-%d{yyyy-MM-dd}.%i.log
-      max-file-size: 100KB
-  level:
-    root: info
-    com.S5G.gateway: info
-
-55g:
-  log:
-    path: /logs/live/gateway
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-eureka-server:
-  port: 8762
-  postfix: dev
-
-server:
-  port: 8050
-
-logging:
-  file:
-    name: ${55g.log.path}/gateway-dev.log
-  logback:
-    rollingpolicy:
-      max-history: 30
-      file-name-pattern: ${55g.log.path}/gateway-dev-%d{yyyy-MM-dd}.%i.log
-      max-file-size: 100KB
-  level:
-    root: debug
-    com.S5G.gateway: trace
-
-55g:
-  log:
-    path: /logs/dev/gateway
----
-spring:
-  config:
-    activate:
-      on-profile: docker
-
-eureka-server:
-  host: 55g-eureka
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${eureka.user.name}:${eureka.user.password}@${eureka-server.host}-${eureka-server.postfix}:${eureka-server.port}/eureka
+  cloud:
+    config:
+      label: main
