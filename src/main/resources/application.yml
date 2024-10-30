@@ -12,11 +12,6 @@ spring:
     config:
       label: main
 
-eureka:
-  user:
-    name: admin
-    password: 1234 # 나중에 config server를 통해 주입될 예정
-
 ---
 spring:
   config:
