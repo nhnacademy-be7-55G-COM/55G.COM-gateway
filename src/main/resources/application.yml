@@ -6,8 +6,29 @@ spring:
     name: gateway-service
 
   config:
-    import: configserver:http://localhost:9000
+    import: optional:configserver:http://localhost:9000
 
   cloud:
     config:
       label: main
+
+eureka:
+  user:
+    name: admin
+    password: 1234 # 나중에 config server를 통해 주입될 예정
+
+---
+spring:
+  config:
+    activate:
+      on-profile: live
+
+    import: optional:configserver:http://55g-config-live:9000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+    import: optional:configserver:http://55g-config-dev:9050
