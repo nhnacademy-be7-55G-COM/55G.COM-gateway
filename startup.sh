@@ -51,6 +51,7 @@ docker run -d --name $container_name \
        --network $network_bridge \
        --env SPRING_PROFILE=$spring_env \
        --env SERVER_PORT=$server_port \
+       --add-host host.docker.internal:host-gateway \
        -p $server_port:$server_port \
        -v /logs:/logs \
        $image_name-$container_postfix
