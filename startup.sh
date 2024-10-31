@@ -47,7 +47,13 @@ echo "Building docker image..."
 docker build -t $image_name-$container_postfix .
 
 echo "Creating container for service..."
-docker run -d --name $container_name --network $network_bridge --env SPRING_PROFILE=$spring_env --env SERVER_PORT=$server_port -p $server_port:$server_port $image_name-$container_postfix
+docker run -d --name $container_name \
+       --network $network_bridge \
+       --env SPRING_PROFILE=$spring_env \
+       --env SERVER_PORT=$server_port \
+       -p $server_port:$server_port \
+       -v /logs:/logs \
+       $image_name-$container_postfix
 
 echo "Pruning images..."
 docker image prune --force
