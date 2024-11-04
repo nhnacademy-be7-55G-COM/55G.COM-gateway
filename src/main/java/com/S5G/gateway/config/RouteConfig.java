@@ -15,6 +15,10 @@ public class RouteConfig {
                 p -> p.path("/api/shop/**")
                     .uri("lb://shop-service")
             )
+            .route("auth-service",
+                p -> p.path("/api/auth/**")
+                    .uri("lb://auth-service")
+            )
             .build();
     }
 
