@@ -1,4 +1,4 @@
-package com.S5G.gateway.config;
+package shop.s5g.gateway.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
