@@ -18,6 +18,9 @@ spring:
     username: guest
     password: guest
 
+  jwt:
+    secret: badfgkamsdgokmgweogsmaodgaoeirmgiofmdklhdfhhasfahdfvgohmeoagdfgmfomha
+
 rabbitmq:
   host: localhost
 
@@ -26,6 +29,7 @@ management:
     web:
       exposure:
         include: refresh,busrefresh
+
 
 ---
 spring:
