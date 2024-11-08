@@ -1,4 +1,4 @@
-package com.S5G.gateway.config;
+package shop.s5g.gateway.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -14,6 +14,10 @@ public class RouteConfig {
             .route("shop-service",
                 p -> p.path("/api/shop/**")
                     .uri("lb://shop-service")
+            )
+            .route("auth-service",
+                p -> p.path("/api/auth/**")
+                    .uri("lb://auth-service")
             )
             .build();
     }
