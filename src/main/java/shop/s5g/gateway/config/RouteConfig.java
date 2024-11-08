@@ -1,4 +1,4 @@
-package com.S5G.gateway.config;
+package shop.s5g.gateway.config;
 
 import com.S5G.gateway.filter.JwtAuthenticationFilter;
 import com.S5G.gateway.filter.JwtAuthenticationFilter.Config;

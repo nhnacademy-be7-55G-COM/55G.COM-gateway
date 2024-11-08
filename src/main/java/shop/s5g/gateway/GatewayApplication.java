@@ -1,4 +1,4 @@
-package com.S5G.gateway;
+package shop.s5g.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
