@@ -1,4 +1,4 @@
-package com.S5G.gateway.filter;
+package shop.s5g.gateway.filter;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;
@@ -13,28 +13,33 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import shop.s5g.gateway.config.JwtAuthenticationConfig;
 
 @Component
 public class JwtAuthenticationFilter extends
-    AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
+    AbstractGatewayFilterFactory<JwtAuthenticationConfig> {
 
-    public JwtAuthenticationFilter() {
-        super(Config.class);
+    private final JwtAuthenticationConfig jwtConfig;
+
+    public JwtAuthenticationFilter(JwtAuthenticationConfig jwtConfig) {
+        super(JwtAuthenticationConfig.class);
+        this.jwtConfig = jwtConfig;
     }
 
     @Override
-    public GatewayFilter apply(Config config) {
+    public GatewayFilter apply(JwtAuthenticationConfig config) {
         return ((exchange, chain) -> {
             String token = extractToken(exchange);
+            if (token == null){
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
 
-            // 검증할 필요가 없는 public 엔드포인트라면 그대로 진행
-            //TODO 현재 모든 경로 public으로 설정, 추후에 종합후에 설정 예정
-
-            if (isPublicEndpoint(exchange.getRequest().getURI().getPath())) {
+            if (token.equals("ANONYMOUS")){
                 return chain.filter(exchange);
             }
 
-            if (token == null || !validateToken(token)) {
+            if (!validateToken(token)) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             }
@@ -57,28 +62,15 @@ public class JwtAuthenticationFilter extends
 
     private boolean validateToken(String token) {
         try {
-            Jwts.parser().verifyWith(newConfig().getSecretKey()).build().parseSignedClaims(token);
+            Jwts.parser().verifyWith(jwtConfig.getSecretKey()).build().parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
     private boolean isExpiredToken(String token) {
-        return Jwts.parser().verifyWith(newConfig().getSecretKey()).build().parseSignedClaims(token)
+        return Jwts.parser().verifyWith(jwtConfig.getSecretKey()).build().parseSignedClaims(token)
             .getPayload().getExpiration().before(new Date());
-    }
-    private boolean isPublicEndpoint(String path) {
-        return path.startsWith("/api/shop/") || path.startsWith("/api/auth/");
-    }
-
-    public static class Config {
-        @Value("${spring.jwt.secret}")
-        private String secretKey;
-
-        public SecretKey getSecretKey() {
-            return new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8),
-                SIG.HS256.key().build().getAlgorithm());
-        }
     }
 
 }
