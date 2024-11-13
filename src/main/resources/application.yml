@@ -13,23 +13,19 @@ spring:
       label: main
 
   rabbitmq:
-    host: ${rabbitmq.host}
-    port: 5672
-    username: guest
-    password: guest
+    host: host
+    port: 0
+    username: username
+    password: password
 
   jwt:
     secret: badfgkamsdgokmgweogsmaodgaoeirmgiofmdklhdfhhasfahdfvgohmeoagdfgmfomha
-
-rabbitmq:
-  host: localhost
 
 management:
   endpoints:
     web:
       exposure:
         include: refresh,busrefresh
-
 
 ---
 spring:
