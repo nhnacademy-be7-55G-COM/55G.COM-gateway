@@ -13,13 +13,13 @@ spring:
       label: main
 
   rabbitmq:
-    host: ${rabbitmq.host}
-    port: 5672
-    username: guest
-    password: guest
+    host: host
+    port: 0
+    username: username
+    password: password
 
-rabbitmq:
-  host: localhost
+  jwt:
+    secret: badfgkamsdgokmgweogsmaodgaoeirmgiofmdklhdfhhasfahdfvgohmeoagdfgmfomha
 
 management:
   endpoints:

@@ -10,11 +10,11 @@ network_bridge="55g-live"
 server_port=8000
 
 if [ "$profile" == "--dev" ]; then
-	container_name="55g-gateway-dev"
-	spring_env="dev,docker"
-	container_postfix="dev"
-	network_bridge="55g-dev"
-	server_port=8050
+  container_name="55g-gateway-dev"
+  spring_env="dev,docker"
+  container_postfix="dev"
+  network_bridge="55g-dev"
+  server_port=8050
 fi
 
 cd $ABSOLUTE_PATH
@@ -34,13 +34,13 @@ fi
 i=0
 for line in $docker_ps; do
   ps_arr[i]=$line
-  i=$((i+1))
+  i=$((i + 1))
 done
 
-for ((i=1; i<${#ps_arr[@]}; i++)); do
-    echo "Removing container ${ps_arr[i]}..."
-    docker stop ${ps_arr[i]}
-    docker rm ${ps_arr[i]}
+for ((i = 1; i < ${#ps_arr[@]}; i++)); do
+  echo "Removing container ${ps_arr[i]}..."
+  docker stop ${ps_arr[i]}
+  docker rm ${ps_arr[i]}
 done
 
 echo "Building docker image..."
@@ -48,13 +48,13 @@ docker build -t $image_name-$container_postfix .
 
 echo "Creating container for service..."
 docker run -d --name $container_name \
-       --network $network_bridge \
-       --env SPRING_PROFILE=$spring_env \
-       --env SERVER_PORT=$server_port \
-       --add-host host.docker.internal:host-gateway \
-       -p $server_port:$server_port \
-       -v /logs:/logs \
-       $image_name-$container_postfix
+  --network $network_bridge \
+  --env SPRING_PROFILE=$spring_env \
+  --env SERVER_PORT=$server_port \
+  --memory="256m" --memory-swap="356m" \
+  -p $server_port:$server_port \
+  -v /logs:/logs \
+  $image_name-$container_postfix
 
 echo "Pruning images..."
 docker image prune --force
